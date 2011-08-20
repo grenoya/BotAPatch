@@ -15,7 +15,7 @@ def retrieve_patches(distribution, release, arch):
         if srpm['filename'][0] == 'z':
             patch_list = retrieve_patch_list(srpm)
             for patch in patch_list:
-                patches.append({srpm_name : patch['filename']})
+                patches.append([srpm_name, patch['filename']])
     return patches
 
 
@@ -28,7 +28,7 @@ def retrieve_patch_list(srpm):
     patch_list = list()
     for elem in srpm_files:
         elname = elem['filename']
-        # extensions trouvees : .patch .dif .dpatch (certain sont zipes)
+        # extensions trouvees : .patch .diff .dpatch (certain sont zipes)
         if 'patch' in elname or 'fix' in elname or '.diff' in elname:
             patch_list.append(elem)
     return patch_list
