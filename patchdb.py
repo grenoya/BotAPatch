@@ -6,6 +6,10 @@ import sophie
 
 
 class PatchDB():
+    """ Class containing database of patches for one RPM
+    distribution/release/arch
+    """
+
 
     def __init__(self, distribution, release, arch):
         self.distribution = distribution
@@ -15,10 +19,10 @@ class PatchDB():
                            self.release,
                            self.arch,
                            "patch.db")
-        self.db = create_engine("".join('sqlite:///', db_name), echo=True)
-        self.metadata = MetaData(self.db)
+        self.database = create_engine("".join('sqlite:///', db_name), echo=True)
+        self.metadata = MetaData(self.database)
 
-    def first_populatation(self):
+    def first_population(self):
         self.patch_table = Table('patch', self.metadata,
             Column('key_num', Integer, primary_key=True),
             Column('patch_name', String(100)),
@@ -41,3 +45,8 @@ class PatchDB():
                             'date': datetime.date.today()})
             key_count += 1
         patch_insertion.execute(patches)
+
+
+if __name__ == "__main__":
+    Mageia_Db = PatchDB("Mageia", "cauldron", "x86_64")
+    Mageia_Db.first_population()
