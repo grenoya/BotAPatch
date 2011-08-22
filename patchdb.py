@@ -10,16 +10,16 @@ class PatchDB():
     distribution/release/arch
     """
 
-
     def __init__(self, distribution, release, arch):
         self.distribution = distribution
         self.release = release
         self.arch = arch
-        db_name = "_".join(self.distribution, 
+        db_name = "_".join((self.distribution,
                            self.release,
                            self.arch,
-                           "patch.db")
-        self.database = create_engine("".join('sqlite:///', db_name), echo=True)
+                           "patch.db"))
+        self.database = create_engine("".join(('sqlite:///', db_name)),
+                                      echo=False)
         self.metadata = MetaData(self.database)
 
     def first_population(self):

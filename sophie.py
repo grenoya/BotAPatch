@@ -12,10 +12,9 @@ def retrieve_patches(distribution, release, arch):
     srpm_list = retrieve_srpm_list(distribution, release, arch)
     for srpm in srpm_list:
         srpm_name = srpm['filename']
-        if srpm['filename'][0] == 'z':
-            patch_list = retrieve_patch_list(srpm)
-            for patch in patch_list:
-                patches.append([srpm_name, patch['filename']])
+        patch_list = retrieve_patch_list(srpm)
+        for patch in patch_list:
+            patches.append([srpm_name, patch['filename']])
     return patches
 
 
@@ -33,6 +32,7 @@ def retrieve_patch_list(srpm):
             patch_list.append(elem)
     return patch_list
 
+
 def retrieve_srpm_list(distribution, release, arch):
     """ Return list of src.rpm for the specified distritubion/release/arch
     """
@@ -41,6 +41,7 @@ def retrieve_srpm_list(distribution, release, arch):
     srpm_list = retrieve_json(url_list)
     return srpm_list
 
+
 def retrieve_json(url):
     """ Return the content a JSON file from the url
     """
@@ -48,6 +49,7 @@ def retrieve_json(url):
     json_content = json.load(json_file)
     json_file.close()
     return json_content
+
 
 if __name__ == "__main__":
     print retrieve_patches("Mageia", "cauldron", "x86_64")
