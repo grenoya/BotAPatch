@@ -21,8 +21,6 @@ class PatchDB():
         self.database = create_engine("".join(('sqlite:///', db_name)),
                                       echo=False)
         self.metadata = MetaData(self.database)
-
-    def first_population(self):
         self.patch_table = Table('patch', self.metadata,
             Column('key_num', Integer, primary_key=True),
             Column('patch_name', String(100)),
@@ -30,9 +28,10 @@ class PatchDB():
             Column('status', Integer),
             Column('date', Date),
         )
+
+    def first_population(self):
         self.patch_table.create()
         key_count = 0
-        patch_insertion = self.patch_table.insert()
         patch_list = sophie.retrieve_patches(self.distribution,
                                              self.release,
                                              self.arch)
@@ -44,6 +43,7 @@ class PatchDB():
                             'status': 0,
                             'date': datetime.date.today()})
             key_count += 1
+        patch_insertion = self.patch_table.insert()
         patch_insertion.execute(patches)
 
 
